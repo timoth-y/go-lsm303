@@ -2,12 +2,12 @@ package lsm303
 
 import (
 	"encoding/binary"
-	"errors"
 	"log"
+	"time"
+
 	"periph.io/x/periph/conn/i2c"
 	"periph.io/x/periph/conn/mmr"
 	"periph.io/x/periph/conn/physic"
-	"time"
 )
 
 // Opts holds the configuration options.
@@ -48,13 +48,13 @@ func NewAccelerometer(bus i2c.Bus, opts *AccelerometerOpts) (*Accelerometer, err
 		return nil, err
 	}
 
-	chipId, err := device.mmr.ReadUint8(ACCELEROMETER_IDENTIFY)
-	if err != nil {
-		return nil, err
-	}
-	if chipId != 0x33 {
-		return nil, errors.New("No LSM303 detected")
-	}
+	// chipId, err := device.mmr.ReadUint8(ACCELEROMETER_IDENTIFY)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// if chipId != 0x33 {
+	// 	return nil, errors.New("No LSM303 detected")
+	// }
 
 	device.SetRange(opts.Range)
 	device.SetMode(opts.Mode)
@@ -355,13 +355,13 @@ func NewMagnetometer(bus i2c.Bus, opts *MagnetometerOpts) (*Magnetometer, error)
 	}
 	// The magnetometer doesn't have an ID register, but this register should
 	// be constant
-	chipId, err := device.mmr.ReadUint8(MAGNETOMETER_IRA_REG_M)
-	if err != nil {
-		return nil, err
-	}
-	if chipId != 0b01001000 {
-		return nil, errors.New("No LSM303 detected")
-	}
+	// chipId, err := device.mmr.ReadUint8(MAGNETOMETER_IRA_REG_M)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// if chipId != 0b01001000 {
+	// 	return nil, errors.New("No LSM303 detected")
+	// }
 
 	device.SetGain(opts.Gain)
 	device.SetRate(opts.Rate)
