@@ -12,12 +12,14 @@ import (
 
 // Opts holds the configuration options.
 type AccelerometerOpts struct {
+	Addr uint16
 	Range AccelerometerRange
 	Mode  AccelerometerMode
 }
 
 // DefaultAccelerometerOpts is the recommended default options.
 var DefaultAccelerometerOpts = AccelerometerOpts{
+	Addr: ACCELEROMETER_ADDRESS,
 	Range: ACCELEROMETER_RANGE_4G,
 	Mode:  ACCELEROMETER_MODE_NORMAL,
 }
@@ -26,7 +28,7 @@ var DefaultAccelerometerOpts = AccelerometerOpts{
 func NewAccelerometer(bus i2c.Bus, opts *AccelerometerOpts) (*Accelerometer, error) {
 	device := &Accelerometer{
 		mmr: mmr.Dev8{
-			Conn: &i2c.Dev{Bus: bus, Addr: uint16(ACCELEROMETER_ADDRESS)},
+			Conn: &i2c.Dev{Bus: bus, Addr: opts.Addr},
 			// I don't think we ever access more than 1 byte at once, so
 			// this is irrelevant
 			Order: binary.BigEndian,
@@ -288,12 +290,14 @@ func getMultiplier(mode AccelerometerMode, range_ AccelerometerRange) int64 {
 
 // Opts holds the configuration options.
 type MagnetometerOpts struct {
+	Addr uint16
 	Gain MagnetometerGain
 	Rate MagnetometerRate
 }
 
 // DefaultMagnetometerOpts is the recommended default options.
 var DefaultMagnetometerOpts = MagnetometerOpts{
+	Addr: MAGNETOMETER_ADDRESS,
 	Gain: MAGNETOMETER_GAIN_4_0,
 	Rate: MAGNETOMETER_RATE_30,
 }
@@ -335,7 +339,7 @@ func (range_ MagnetometerRate) String() string {
 func NewMagnetometer(bus i2c.Bus, opts *MagnetometerOpts) (*Magnetometer, error) {
 	device := &Magnetometer{
 		mmr: mmr.Dev8{
-			Conn: &i2c.Dev{Bus: bus, Addr: uint16(MAGNETOMETER_ADDRESS)},
+			Conn: &i2c.Dev{Bus: bus, Addr: opts.Addr},
 			// I don't think we ever access more than 1 byte at once, so
 			// this is irrelevant
 			Order: binary.BigEndian,
