@@ -1,7 +1,5 @@
 package lsm303
 
-// TODO: get back old options for backwards capabilities
-
 type (
 	// AccelerometerOption configures a LSM303 accelerometer.
 	AccelerometerOption interface {
@@ -165,4 +163,40 @@ func WithDatasheet(datasheet MagnetometerDatasheet) MagnetometerOption {
 	return MagnetometerOptionFunc(func(d *Magnetometer) {
 		d.datasheet = &datasheet
 	})
+}
+
+// Opts holds the configuration options.
+// These options are obsolete, use WithRange and\or WithMode instead.
+type AccelerometerOpts struct {
+	Range AccelerometerRange
+	Mode  AccelerometerMode
+}
+
+// DefaultAccelerometerOpts is the recommended default options.
+var DefaultAccelerometerOpts = AccelerometerOpts{
+	Range: ACCELEROMETER_RANGE_4G,
+	Mode:  ACCELEROMETER_MODE_NORMAL,
+}
+
+func (ao AccelerometerOpts) Apply(accelerometer *Accelerometer) {
+	accelerometer.mode = ao.Mode
+	accelerometer.range_ = ao.Range
+}
+
+// Opts holds the configuration options.
+// These options are obsolete, use WithGain and\or WithRate instead.
+type MagnetometerOpts struct {
+	Gain MagnetometerGain
+	Rate MagnetometerRate
+}
+
+// DefaultMagnetometerOpts is the recommended default options.
+var DefaultMagnetometerOpts = MagnetometerOpts{
+	Gain: MAGNETOMETER_GAIN_4_0,
+	Rate: MAGNETOMETER_RATE_30,
+}
+
+func (mo MagnetometerOpts) Apply(magnetometer *Magnetometer) {
+	magnetometer.gain = mo.Gain
+	magnetometer.rate = mo.Rate
 }
