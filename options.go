@@ -61,6 +61,14 @@ func (f MagnetometerOptionFunc) Apply(dev *Magnetometer) {
 	f(dev)
 }
 
+// WithAccelerometerSensorType can be used to specify LSM303 family sensor type.
+// Default is LSM303DLHC.
+func WithAccelerometerSensorType(sensorType SensorType) AccelerometerOption {
+	return AccelerometerOptionFunc(func(d *Accelerometer) {
+		d.sensorType = sensorType
+	})
+}
+
 // WithAccelerometerAddress can be used to specify I²C address for Accelerometer.
 // Default is 0x19 for LSM303 and 0x1E for LSM303C.
 func WithAccelerometerAddress(addr uint16) AccelerometerOption {
@@ -118,9 +126,9 @@ func (range_ MagnetometerRate) String() string {
 	return [...]string{"0.75", "1.55", "3.05", "7.55", "15", "30", "75", "220"}[range_]
 }
 
-// WithSensorType can be used to specify LSM303 family sensor type.
+// WithMagnetometerSensorType can be used to specify LSM303 family sensor type.
 // Default is LSM303DLHC.
-func WithSensorType(sensorType SensorType) MagnetometerOption {
+func WithMagnetometerSensorType(sensorType SensorType) MagnetometerOption {
 	return MagnetometerOptionFunc(func(d *Magnetometer) {
 		d.sensorType = sensorType
 	})
