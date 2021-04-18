@@ -1,5 +1,6 @@
 package lsm303
 
+// TODO: get back old options for backwards capabilities
 
 type (
 	// AccelerometerOption configures a LSM303 accelerometer.
