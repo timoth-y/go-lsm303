@@ -13,12 +13,12 @@ import (
 
 // This is a handle to the LSM303 accelerometer sensor.
 type Accelerometer struct {
-	mmr    mmr.Dev8
-	sensorType SensorType
-	datasheet *AccelerometerDatasheet
-	addr *uint16
-	range_ AccelerometerRange
-	mode   AccelerometerMode
+	mmr         mmr.Dev8
+	sensorType  SensorType
+	datasheet   *AccelerometerDatasheet
+	addr        *uint16
+	range_      AccelerometerRange
+	mode        AccelerometerMode
 }
 
 // New accelerometer opens a handle to an LSM303 accelerometer sensor.
@@ -42,7 +42,7 @@ func NewAccelerometer(bus i2c.Bus, opts ...AccelerometerOption) (*Accelerometer,
 	}
 
 	device.mmr = mmr.Dev8{
-		Conn: &i2c.Dev{Bus: bus, Addr: uint16(*device.addr)},
+		Conn: &i2c.Dev{Bus: bus, Addr: *device.addr},
 		// I don't think we ever access more than 1 byte at once, so
 		// this is irrelevant
 		Order: binary.BigEndian,
@@ -248,7 +248,6 @@ func getMultiplier(mode AccelerometerMode, range_ AccelerometerRange) int64 {
 		case ACCELEROMETER_RANGE_16G:
 			return 459931885 >> 6
 		}
-
 	case ACCELEROMETER_MODE_HIGH_RESOLUTION:
 		switch range_ {
 		case ACCELEROMETER_RANGE_2G:

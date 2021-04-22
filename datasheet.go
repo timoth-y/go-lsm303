@@ -158,7 +158,7 @@ func datasheetForMagnetometer(sensorType SensorType) *MagnetometerDatasheet {
 			WHO_AM_I_M: 0x0F,
 			CHIP_ID:    0x3D,
 			CRA_REG_M:  0x20, // Called CTRL_REG1_M in LSM303C Datasheet
-			MR_REG_M:   0x02,
+			MR_REG_M:   0x22, // Called CTRL_REG3_M in LSM303C Datasheet
 			OUT_X_L_M:  0x28,
 			OUT_X_H_M:  0x29,
 			OUT_Y_L_M:  0x2A,
